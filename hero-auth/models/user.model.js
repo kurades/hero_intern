@@ -12,15 +12,15 @@ const UserSchema = new Schema({
         type: String,
     },
     email: {
-      type: String,  
+        type: String,
     },
     password: {
         type: String,
         require: true,
-        select : false,
+        select: false,
     },
-    heroesList:{
-        type: [{type: mongoose.Types.ObjectId, ref:'Hero'}]
+    heroesList: {
+        type: [{ type: mongoose.Types.ObjectId, ref: 'Hero' }]
     }
 })
 

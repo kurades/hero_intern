@@ -10,23 +10,29 @@ import { register } from 'src/app/core/store/User/user.actions';
 })
 export class RegisterComponent {
   registerForm: FormGroup;
-
+  formError = '';
   constructor (private fb: FormBuilder, private store: Store) {}
 
   ngOnInit (): void {
     this.initForm();
   }
 
-  initForm (): void {
+  onSubmit (): void {
+    const value = this.registerForm.value;
+    if (value.password === value.rePassword) {
+      this.store.dispatch(
+        register({ name: value.name, password: value.password })
+      );
+    } else {
+      this.formError = 'Password not matched'
+    }
+  }
+
+  private initForm (): void {
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
       rePassword: ['', [Validators.required, Validators.minLength(6)]]
     });
-  }
-
-  onSubmit (): void {
-    const value = this.registerForm.value;
-    this.store.dispatch(register(value));
   }
 }

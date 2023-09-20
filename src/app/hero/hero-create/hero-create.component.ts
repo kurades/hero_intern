@@ -13,11 +13,11 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  merge
+  merge,
+  Subscription
 } from 'rxjs';
 import { Tag } from 'src/app/core/models/tag';
 import { AppState } from 'src/app/core/store/app.state';
-import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-hero-create',
   templateUrl: './hero-create.component.html',
@@ -29,8 +29,8 @@ export class HeroCreateComponent implements OnInit, OnDestroy {
   tagList: Tag[];
   inputTagFocus$ = new Subject<string>();
   inputTagClick$ = new Subject<string>();
-  subscription: Subscription;
   @ViewChild('instance', { static: true }) instance: NgbTypeahead;
+  private subscription: Subscription;
   private MIN_AGE: number = 1;
 
   constructor (private fb: FormBuilder, private store: Store<AppState>) {}
@@ -60,24 +60,6 @@ export class HeroCreateComponent implements OnInit, OnDestroy {
     this.initForm();
   }
 
-  getTags (): void {
-    this.store.dispatch(getTags());
-    this.subscription = this.store.select(selectTags).subscribe(tags => {
-      this.tagList = tags;
-    });
-  }
-
-  initForm () {
-    this.heroFormGroup = this.fb.group({
-      name: ['', { validators: [Validators.required], updateOn: 'blur' }],
-      gender: ['Male', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      age: [0, [Validators.required, Validators.min(this.MIN_AGE)]],
-      address: ['', Validators.required],
-      tags: this.fb.array([])
-    });
-  }
-
   search: OperatorFunction<string, readonly Tag[]> = (
     text$: Observable<string>
   ) => {
@@ -97,12 +79,6 @@ export class HeroCreateComponent implements OnInit, OnDestroy {
     );
   };
 
-  filteredTags (term: string): Tag[] {
-    return this.tagList.filter(tag =>
-      tag.name.toLowerCase().includes(term.toLowerCase())
-    );
-  }
-
   addTag (event: HTMLInputElement) {
     const value = this.tagList.find(tag => tag.name === event.value);
     if (value) {
@@ -110,7 +86,6 @@ export class HeroCreateComponent implements OnInit, OnDestroy {
       const exist = this.tags.value.find(
         (tag: Tag) => tag.name === event.value
       );
-
       if (!exist && valid) {
         this.tagError = '';
         this.tags.push(this.fb.control(value));
@@ -119,13 +94,6 @@ export class HeroCreateComponent implements OnInit, OnDestroy {
         this.tagError = 'Please type in a valid tag';
       }
     }
-  }
-
-  checkTagValid (tag: string | null): boolean {
-    if (!tag) return false;
-    const regexp = new RegExp(/^[a-zA-Z0-9 ]*$/);
-    const valid = regexp.test(tag);
-    return valid;
   }
 
   formatter = (result: Tag) => result.name;
@@ -144,8 +112,37 @@ export class HeroCreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy (): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
     this.subscription.unsubscribe();
+  }
+
+  private getTags (): void {
+    this.store.dispatch(getTags());
+    this.subscription = this.store.select(selectTags).subscribe(tags => {
+      this.tagList = tags;
+    });
+  }
+
+  private initForm () {
+    this.heroFormGroup = this.fb.group({
+      name: ['', { validators: [Validators.required], updateOn: 'blur' }],
+      gender: ['Male', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      age: [0, [Validators.required, Validators.min(this.MIN_AGE)]],
+      address: ['', Validators.required],
+      tags: this.fb.array([])
+    });
+  }
+
+  private checkTagValid (tag: string | null): boolean {
+    if (!tag) return false;
+    const regexp = new RegExp(/^[a-zA-Z0-9 ]*$/);
+    const valid = regexp.test(tag);
+    return valid;
+  }
+
+  private filteredTags (term: string): Tag[] {
+    return this.tagList.filter(tag =>
+      tag.name.toLowerCase().includes(term.toLowerCase())
+    );
   }
 }

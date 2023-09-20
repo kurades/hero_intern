@@ -25,31 +25,11 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     this.initForm();
   }
 
-  fetchUser (): void {
-    this.userSubscription = this.store.select(selectUser).subscribe(u => {
-      this.user = u as User;
-    });
-  }
-
   save (): void {
-    console.log(this.userForm.value);
     const user: User = this.userForm.value;
     this.store.dispatch(updateProfile({ user }));
   }
-
-  initForm (): void {
-    if (this.user) {
-      this.userForm = this.fb.group({
-        _id: [this.user._id],
-        name: [this.user.name],
-        email: [this.user.email, Validators.email],
-        phone: [
-          this.user.phone,
-          [Validators.pattern('^[0-9]+'), Validators.minLength(10)]
-        ]
-      });
-    }
-  }
+  
   get _id () {
     return this.userForm.get('_id');
   }
@@ -65,5 +45,25 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
   ngOnDestroy (): void {
     this.userSubscription.unsubscribe();
+  }
+  
+  private initForm (): void {
+    if (this.user) {
+      this.userForm = this.fb.group({
+        _id: [this.user._id],
+        name: [this.user.name],
+        email: [this.user.email, Validators.email],
+        phone: [
+          this.user.phone,
+          [Validators.pattern('^[0-9]+'), Validators.minLength(10)]
+        ]
+      });
+    }
+  }
+
+  private fetchUser (): void {
+    this.userSubscription = this.store.select(selectUser).subscribe(u => {
+      this.user = u as User;
+    });
   }
 }

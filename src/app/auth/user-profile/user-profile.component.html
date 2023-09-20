@@ -3,20 +3,23 @@
     <div>User id: {{user._id}}</div>
 
     <form [formGroup]="userForm" (ngSubmit)="save()" class="form-group w-50">
-        <fieldset [disabled]="true">
+        <fieldset [disabled]="true" class="mb-3">
             <label for="name">User name:</label>
             <input type="text" id="name" formControlName="name" class="form-control" required>
         </fieldset>
-
-        <label for="email">Email:</label>
-        <input type="email" formControlName="email" class="form-control" name="email" id="email">
-        <div *ngIf="email?.errors && !email?.pristine" class="text-danger">
-            Please type in a valid email.
+        <div class="mb-3">
+            <label for="email">Email:</label>
+            <input type="email" formControlName="email" class="form-control" name="email" id="email">
+            <div *ngIf="email?.errors && !email?.pristine" class="text-danger">
+                Please type in a valid email.
+            </div>
         </div>
-        <label for="phone">Phone</label>
-        <input type="text" formControlName="phone" class="form-control" name="phone" id="phone">
-        <div *ngIf="phone?.errors && phone?.touched" class="text-danger">
-            Please type a valid phone number
+        <div class="mb-3">
+            <label for="phone">Phone</label>
+            <input type="text" formControlName="phone" class="form-control" name="phone" id="phone">
+            <div *ngIf="phone?.errors && phone?.touched" class="text-danger">
+                Please type a valid phone number
+            </div>
         </div>
         <div class="w-100 d-flex justify-content-center mx-auto">
             <Button type="submit" class="w-25 btn btn-primary mt-5" [disabled]="!userForm.valid">Save</Button>

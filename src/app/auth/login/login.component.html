@@ -1,10 +1,14 @@
 <div class="d-flex flex-column justify-content-center align-items-center ">
     <h2>Login</h2>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-group w-50">
-        <label for="name" class="mb-2">Login name:</label>
-        <input type="text" formControlName="name" class="form-control mb-2" required>
-        <label for="password" class="mb-2">Password:</label>
-        <input type="password" formControlName="password" class="form-control mb-2" required>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="w-50">
+        <div class="mb-3">
+            <label for="name" class="mb-2">Login name:</label>
+            <input type="text" formControlName="name" class="form-control mb-2" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="mb-2">Password:</label>
+            <input type="password" formControlName="password" class="form-control mb-2" required>
+        </div>
         <button type="submit" class="btn btn-primary w-100 mt-5" [disabled]="!loginForm.valid">Login</button>
     </form>
 </div>

@@ -1,5 +1,4 @@
-import { Tag } from "./tag";
-
+import { Tag } from './tag';
 export interface Hero {
     _id?: string;
     name: string;

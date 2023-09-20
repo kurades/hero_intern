@@ -1,9 +1,8 @@
-import { Hero } from "./hero";
-
+import { Hero } from './hero';
 export interface User {
-    _id?: string,
-    email?: string,
-    phone?: string,
-    name: string,
-    heroesList: Hero[],
+  _id?: string;
+  email?: string;
+  phone?: string;
+  name: string;
+  heroesList: Hero[];
 }

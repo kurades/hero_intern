@@ -47,12 +47,7 @@ export class HeroDetailComponent implements OnInit, OnDestroy {
     this.getTags();
     this.getHero();
   }
-  getTags (): void {
-    this.store.dispatch(getTags());
-    this.tagSubscription = this.store.select(selectTags).subscribe(tags => {
-      this.tagList = tags;
-    });
-  }
+
   initForm (): void {
     if (this.hero) {
       this.heroForm = this.fb.group({
@@ -85,14 +80,6 @@ export class HeroDetailComponent implements OnInit, OnDestroy {
     return this.heroForm.get('tags') as FormArray;
   }
 
-  getHero (): void {
-    const id = String(this.route.snapshot.paramMap.get('id'));
-    this.subscription = this.heroService.getHero(id).subscribe(hero => {
-      this.hero = hero;
-      this.initForm();
-    });
-  }
-
   save (): void {
     let updatedHero: Hero = this.heroForm.value;
     this.store.dispatch(editHero({ hero: updatedHero }));
@@ -117,12 +104,6 @@ export class HeroDetailComponent implements OnInit, OnDestroy {
     );
   };
 
-  searchResult (term: string): Tag[] {
-    return this.tagList.filter(tag =>
-      tag.name.toLowerCase().includes(term.toLowerCase())
-    );
-  }
-
   formatter = (result: Tag) => result.name;
 
   addTag (event: HTMLInputElement) {
@@ -142,13 +123,6 @@ export class HeroDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  checkTagValid (tag: string | null): boolean {
-    if (!tag) return false;
-    const regexp = new RegExp(/^[a-zA-Z0-9 ]*$/);
-    const valid = regexp.test(tag);
-    return valid;
-  }
-
   removeTag (tag: Tag): void {
     let current = this.tags.value;
     let tagIndex = current.findIndex((t: Tag) => t.name === tag.name);
@@ -160,9 +134,35 @@ export class HeroDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy (): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
     this.subscription.unsubscribe();
     this.tagSubscription.unsubscribe();
+  }
+
+  private getTags (): void {
+    this.store.dispatch(getTags());
+    this.tagSubscription = this.store.select(selectTags).subscribe(tags => {
+      this.tagList = tags;
+    });
+  }
+
+  private getHero (): void {
+    const id = String(this.route.snapshot.paramMap.get('id'));
+    this.subscription = this.heroService.getHero(id).subscribe(hero => {
+      this.hero = hero;
+      this.initForm();
+    });
+  }
+
+  private searchResult (term: string): Tag[] {
+    return this.tagList.filter(tag =>
+      tag.name.toLowerCase().includes(term.toLowerCase())
+    );
+  }
+
+  private checkTagValid (tag: string | null): boolean {
+    if (!tag) return false;
+    const regexp = new RegExp(/^[a-zA-Z0-9 ]*$/);
+    const valid = regexp.test(tag);
+    return valid;
   }
 }

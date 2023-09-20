@@ -26,9 +26,8 @@ import { Observable, Subscription, map } from 'rxjs';
 export class TagManagerComponent implements OnInit, OnDestroy {
   isEdit = -1;
   tags: Tag[];
-  tags$: Observable<Tag[]>;
   chosenTag: Tag;
-  tagsSubscription: Subscription;
+  private tagsSubscription: Subscription;
   constructor (private store: Store<AppState>, private cdr: ChangeDetectorRef) {}
 
   ngOnInit (): void {
