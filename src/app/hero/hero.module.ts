@@ -6,7 +6,6 @@ import { HeroesComponent } from './heroes/heroes.component';
 import { ShareModule } from '../shared/share.module';
 import { TagComponent } from './tag/tag.component';
 import { HeroesRoutingModule } from './hero-routing.module';
-
 @NgModule({
   declarations: [
     DashboardComponent,

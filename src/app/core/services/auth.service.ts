@@ -1,10 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Observable, catchError, of, tap, throwError } from 'rxjs';
+import { Observable, catchError, of, tap } from 'rxjs';
 import { MessageService } from './message.service';
 import { User } from '../models/user';
-import { authPayload } from '../models/authPayload';
+import { AuthPayload } from '../models/authPayload';
 import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
@@ -33,22 +33,19 @@ export class AuthService {
     this.messageService.add(`AuthService:${message}`);
   }
 
-  login (name: string, password: string): Observable<authPayload> {
+  login (name: string, password: string): Observable<AuthPayload> {
     return this.http
-      .post<authPayload>(`${this.authUrl}/login`, { name, password })
+      .post<AuthPayload>(`${this.authUrl}/login`, { name, password })
       .pipe(
-        tap(_ => {
+        tap(() => {
           this.log('login success');
         }),
-        catchError(this.handleError<authPayload>('login'))
+        catchError(this.handleError<AuthPayload>('login'))
       );
   }
 
-  register (
-    name: string,
-    password: string
-  ): Observable<authPayload> {
-    return this.http.post<authPayload>(
+  register (name: string, password: string): Observable<AuthPayload> {
+    return this.http.post<AuthPayload>(
       `${this.authUrl}/register`,
       { name, password },
       this.httpOptions
@@ -57,7 +54,7 @@ export class AuthService {
 
   updateProfile (user: User): Observable<User> {
     return this.http.put<User>(`${this.authUrl}`, user, this.httpOptions).pipe(
-      tap(_ => {
+      tap(() => {
         this.log('update profile user');
       }),
       catchError(this.handleError<User>('update profile'))
@@ -65,7 +62,7 @@ export class AuthService {
   }
 
   loadAuthFromCookie () {
-    let rawUser = this.cookieService.get('user');
+    const rawUser = this.cookieService.get('user');
     let user = null;
     let token = null;
     if (rawUser) {

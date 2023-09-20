@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Hero } from '../../core/models/hero';
@@ -31,7 +32,7 @@ export class HeroCreateComponent implements OnInit, OnDestroy {
   inputTagClick$ = new Subject<string>();
   @ViewChild('instance', { static: true }) instance: NgbTypeahead;
   private subscription: Subscription;
-  private MIN_AGE: number = 1;
+  private MIN_AGE = 1;
 
   constructor (private fb: FormBuilder, private store: Store<AppState>) {}
 
@@ -99,10 +100,9 @@ export class HeroCreateComponent implements OnInit, OnDestroy {
   formatter = (result: Tag) => result.name;
 
   removeTag (tag: Tag): void {
-    let current = [...this.tags.value];
-    let tagIndex = current.findIndex(v => v === tag);
+    const current = [...this.tags.value];
+    const tagIndex = current.findIndex(v => v === tag);
     this.tags.removeAt(tagIndex);
-    console.log(this.tags.value);
   }
 
   onSubmit (): void {
@@ -135,7 +135,7 @@ export class HeroCreateComponent implements OnInit, OnDestroy {
 
   private checkTagValid (tag: string | null): boolean {
     if (!tag) return false;
-    const regexp = new RegExp(/^[a-zA-Z0-9 ]*$/);
+    const regexp = /^[a-zA-Z0-9 ]*$/;
     const valid = regexp.test(tag);
     return valid;
   }

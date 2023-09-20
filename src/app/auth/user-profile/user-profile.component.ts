@@ -29,16 +29,19 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     const user: User = this.userForm.value;
     this.store.dispatch(updateProfile({ user }));
   }
-  
+
   get _id () {
     return this.userForm.get('_id');
   }
+
   get name () {
     return this.userForm.get('name');
   }
+
   get email () {
     return this.userForm.get('email');
   }
+
   get phone () {
     return this.userForm.get('phone');
   }
@@ -46,7 +49,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   ngOnDestroy (): void {
     this.userSubscription.unsubscribe();
   }
-  
+
   private initForm (): void {
     if (this.user) {
       this.userForm = this.fb.group({

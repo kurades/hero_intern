@@ -6,7 +6,7 @@ import {
   OnInit
 } from '@angular/core';
 import { Tag } from '../core/models/tag';
-import { Store, on } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { AppState } from '../core/store/app.state';
 import {
   addTag,
@@ -15,7 +15,7 @@ import {
   getTags
 } from '../core/store/Hero/hero.actions';
 import { selectTags } from '../core/store/Hero/hero.selector';
-import { Observable, Subscription, map } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tag-manager',
@@ -70,7 +70,7 @@ export class TagManagerComponent implements OnInit, OnDestroy {
     return item._id;
   }
 
-  ngOnDestroy(): void {
-      this.tagsSubscription.unsubscribe()
+  ngOnDestroy (): void {
+    this.tagsSubscription.unsubscribe();
   }
 }

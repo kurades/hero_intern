@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { register } from 'src/app/core/store/User/user.actions';
@@ -8,7 +8,7 @@ import { register } from 'src/app/core/store/User/user.actions';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   formError = '';
   constructor (private fb: FormBuilder, private store: Store) {}
@@ -24,7 +24,7 @@ export class RegisterComponent {
         register({ name: value.name, password: value.password })
       );
     } else {
-      this.formError = 'Password not matched'
+      this.formError = 'Password not matched';
     }
   }
 

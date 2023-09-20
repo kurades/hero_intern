@@ -16,7 +16,7 @@ export const loginFailure = createAction(
 
 export const register = createAction(
   '[register page] register',
-  props<{ name: string; password: string}>()
+  props<{ name: string; password: string }>()
 );
 export const registerSuccess = createAction(
   '[register page] register success',

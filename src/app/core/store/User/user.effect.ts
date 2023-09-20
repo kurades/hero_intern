@@ -1,8 +1,8 @@
-import { Inject, Injectable } from '@angular/core';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AuthService } from 'src/app/core/services/auth.service';
 import * as UserAction from './user.actions';
-import { catchError, exhaustMap, map, of, switchMap, tap } from 'rxjs';
+import { catchError, exhaustMap, map, of } from 'rxjs';
 import { MessageService } from 'src/app/core/services/message.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
@@ -12,23 +12,21 @@ export class UserEffect {
     this.action$.pipe(
       ofType(UserAction.register),
       exhaustMap(action => {
-        return this.authService
-          .register(action.name, action.password)
-          .pipe(
-            map(data => {
-              this.cookieService.set('user', JSON.stringify(data.user));
-              this.cookieService.set('token', JSON.stringify(data.token));
-              this.router.navigateByUrl('/');
-              return UserAction.registerSuccess({
-                user: data.user,
-                token: data.token
-              });
-            }),
-            catchError(error => {
-              this.messageService.add(error);
-              return of(UserAction.registerFailure({ error }));
-            })
-          );
+        return this.authService.register(action.name, action.password).pipe(
+          map(data => {
+            this.cookieService.set('user', JSON.stringify(data.user));
+            this.cookieService.set('token', JSON.stringify(data.token));
+            this.router.navigateByUrl('/');
+            return UserAction.registerSuccess({
+              user: data.user,
+              token: data.token
+            });
+          }),
+          catchError(error => {
+            this.messageService.add(error);
+            return of(UserAction.registerFailure({ error }));
+          })
+        );
       })
     )
   );

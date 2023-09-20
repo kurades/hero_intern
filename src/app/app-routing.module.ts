@@ -1,7 +1,7 @@
-import { NgModule, inject } from '@angular/core'
-import { RouterModule, Routes } from '@angular/router'
-import { AuthGuardService } from './core/services/auth-guard.service'
-import { TagManagerComponent } from './tag-manager/tag-manager.component'
+import { NgModule, inject } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AuthGuardService } from './core/services/auth-guard.service';
+import { TagManagerComponent } from './tag-manager/tag-manager.component';
 
 const routes: Routes = [
   {
@@ -22,7 +22,7 @@ const routes: Routes = [
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   }
-]
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

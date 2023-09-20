@@ -4,7 +4,6 @@ import { CookieService } from 'ngx-cookie-service';
 import { UserState, selectUser } from './core/store/User/user.selector';
 import { AuthService } from './core/services/auth.service';
 import { loginSuccess } from './core/store/User/user.actions';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -21,7 +20,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit (): void {
-    let payload = this.authService.loadAuthFromCookie();
+    const payload = this.authService.loadAuthFromCookie();
     if (payload) this.store.dispatch(loginSuccess(payload));
   }
 

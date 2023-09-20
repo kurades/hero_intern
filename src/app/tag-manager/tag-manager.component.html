@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <div class="ms-5">
     <h2 class="mb-5">Tag manager</h2>
     <div class="d-flex flex-column">
@@ -9,12 +10,12 @@
             <div>
                 <p class="custom-badge mb-2 p-2 text-light rounded-1 fw-bold d-inline-block" 
                     appColorize [colorValue]="tag._id">
-                    <span (click)="toggleEdit(i)" *ngIf="!(isEdit===i); else elseblock">{{tag.name}}</span>
+                    <span (click)="toggleEdit(i)" tabindex="0" *ngIf="!(isEdit===i); else elseblock">{{tag.name}}</span>
                     <ng-template #elseblock>
                         <input type="text" class="styleless-input text-white" #edittag [value]="chosenTag.name"
                             (keydown.enter)="editTag(edittag)">
                     </ng-template>
-                    <span class="ms-3 cursor-pointer" (click)="deleteTag(tag._id)">x</span>
+                    <span class="ms-3 cursor-pointer" tabindex="0" (click)="deleteTag(tag._id)">x</span>
                 </p>
             </div>
         </div>

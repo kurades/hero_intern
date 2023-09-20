@@ -164,6 +164,7 @@ export class HeroEffect {
       )
     )
   );
+
   editTag$ = createEffect(() =>
     this.action$.pipe(
       ofType(editTag),
@@ -181,6 +182,7 @@ export class HeroEffect {
       )
     )
   );
+
   deleteTag$ = createEffect(() =>
     this.action$.pipe(
       ofType(deleteTag),

@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <div class="d-flex flex-column h-100">
     <nav class="navbar navbar-light bg-secondary p-2">
         <h1 class="navbar-brand text-white">{{title}}</h1>
@@ -15,7 +16,7 @@
                 <a routerLink="/auth/profile" class="nav-item nav-link text-white">Profile</a>
             </li>
             <li class="nav-item">
-                <a (click)="logout()" class="nav-item nav-link text-white cursor-pointer">Log out</a>
+                <a (click)="logout()" tabindex="0" class="nav-item nav-link text-white cursor-pointer">Log out</a>
             </li>
         </ul>
         <ng-template #elseblock>

@@ -117,7 +117,7 @@ export class HeroesComponent implements OnInit, OnDestroy {
 
   private checkTagValid (tag: string | null): boolean {
     if (!tag) return false;
-    const regexp = new RegExp(/^[a-zA-Z0-9 ]*$/);
+    const regexp = /^[a-zA-Z0-9 ]*$/;
     const valid = regexp.test(tag);
     return valid;
   }

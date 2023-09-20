@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Hero } from '../../core/models/hero';
 import { ActivatedRoute } from '@angular/router';
 import { HeroService } from '../../core/services/hero.service';
@@ -12,7 +12,7 @@ import {
   filter,
   map,
   merge,
-  pipe
+  Subscription
 } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectTags } from '../../core/store/Hero/hero.selector';
@@ -20,7 +20,6 @@ import { editHero, getTags } from '../../core/store/Hero/hero.actions';
 import { Tag } from 'src/app/core/models/tag';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { AppState } from 'src/app/core/store/app.state';
-import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-hero-detail',
   templateUrl: './hero-detail.component.html',
@@ -61,27 +60,33 @@ export class HeroDetailComponent implements OnInit, OnDestroy {
       });
     }
   }
+
   get name () {
     return this.heroForm.get('name');
   }
+
   get age () {
     return this.heroForm.get('age');
   }
+
   get gender () {
     return this.heroForm.get('gender');
   }
+
   get email () {
     return this.heroForm.get('email');
   }
+
   get address () {
     return this.heroForm.get('address');
   }
+
   get tags () {
     return this.heroForm.get('tags') as FormArray;
   }
 
   save (): void {
-    let updatedHero: Hero = this.heroForm.value;
+    const updatedHero: Hero = this.heroForm.value;
     this.store.dispatch(editHero({ hero: updatedHero }));
   }
 
@@ -124,8 +129,8 @@ export class HeroDetailComponent implements OnInit, OnDestroy {
   }
 
   removeTag (tag: Tag): void {
-    let current = this.tags.value;
-    let tagIndex = current.findIndex((t: Tag) => t.name === tag.name);
+    const current = this.tags.value;
+    const tagIndex = current.findIndex((t: Tag) => t.name === tag.name);
     this.tags.removeAt(tagIndex);
   }
 
@@ -161,7 +166,7 @@ export class HeroDetailComponent implements OnInit, OnDestroy {
 
   private checkTagValid (tag: string | null): boolean {
     if (!tag) return false;
-    const regexp = new RegExp(/^[a-zA-Z0-9 ]*$/);
+    const regexp = /^[a-zA-Z0-9 ]*$/;
     const valid = regexp.test(tag);
     return valid;
   }

@@ -1,5 +1,5 @@
 import { User } from './user';
-export interface authPayload {
+export interface AuthPayload {
   user: User;
   token: string;
 }

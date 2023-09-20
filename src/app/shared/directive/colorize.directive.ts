@@ -8,7 +8,7 @@ export class ColorizeDirective implements OnInit {
   constructor (private host: ElementRef) {}
 
   ngOnInit (): void {
-    console.count(this.colorValue)
+    console.count(this.colorValue);
     this.host.nativeElement.style.backgroundColor = this.stringToColour(
       this.colorValue
     );

@@ -11,6 +11,7 @@ export class HeroService {
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
+
   constructor (
     private messageService: MessageService,
     private http: HttpClient
@@ -18,7 +19,7 @@ export class HeroService {
 
   getHeroes (): Observable<Hero[]> {
     return this.http.get<Hero[]>(`${this.heroesUrl}`).pipe(
-      tap(_ => {
+      tap(() => {
         this.log('fetched heroes');
       }),
       catchError(this.handleError<Hero[]>('getHeroes', []))
@@ -28,10 +29,11 @@ export class HeroService {
   getHero (id: string): Observable<Hero> {
     const url = `${this.heroesUrl}/${id}`;
     return this.http.get<Hero>(url).pipe(
-      tap(_ => this.log(`fetched hero id=${id}`)),
+      tap(() => this.log(`fetched hero id=${id}`)),
       catchError(this.handleError<Hero>(`getHero id=${id}`))
     );
   }
+
   updateHero (hero: Hero): Observable<Hero> {
     const { tags, ...heroInfo } = hero;
     const tagIds = tags?.map(tag => tag._id);
@@ -42,10 +44,11 @@ export class HeroService {
         this.httpOptions
       )
       .pipe(
-        tap(_ => this.log(`updated hero id=${hero._id}`)),
-        catchError(this.handleError<any>('updateHero'))
+        tap(() => this.log(`updated hero id=${hero._id}`)),
+        catchError(this.handleError<Hero>('updateHero'))
       );
   }
+
   addHero (newHero: Hero): Observable<Hero> {
     const { tags, ...heroInfo } = newHero;
     const tagIds = tags?.map(tag => tag._id);
@@ -56,7 +59,7 @@ export class HeroService {
         this.httpOptions
       )
       .pipe(
-        tap(_ => this.log(`add hero w/ name=${newHero.name}`)),
+        tap(() => this.log(`add hero w/ name=${newHero.name}`)),
         catchError(this.handleError<Hero>('addHero'))
       );
   }
@@ -64,10 +67,11 @@ export class HeroService {
   deleteHero (id?: string): Observable<Hero> {
     const url = `${this.heroesUrl}/${id}`;
     return this.http.delete<Hero>(url, this.httpOptions).pipe(
-      tap(_ => this.log(`deleted hero id=${id}`)),
+      tap(() => this.log(`deleted hero id=${id}`)),
       catchError(this.handleError<Hero>('deleteHero'))
     );
   }
+
   searchHeroes (term: string, tags: Tag[]): Observable<Hero[]> {
     let query = '';
     tags.forEach(tag => {
@@ -88,7 +92,7 @@ export class HeroService {
 
   getTags (): Observable<Tag[]> {
     return this.http.get<Tag[]>(`${this.heroesUrl}/tag`).pipe(
-      tap(_ => this.log('get tags success')),
+      tap(() => this.log('get tags success')),
       catchError(this.handleError<Tag[]>('getTags', []))
     );
   }
@@ -97,7 +101,7 @@ export class HeroService {
     return this.http
       .post<Tag>(`${this.heroesUrl}/tag`, { name }, this.httpOptions)
       .pipe(
-        tap(_ => this.log('add tags success')),
+        tap(() => this.log('add tags success')),
         catchError(this.handleError<Tag>('AddTags'))
       );
   }
@@ -106,21 +110,21 @@ export class HeroService {
     return this.http
       .put<Tag>(`${this.heroesUrl}/tag/${_id}`, { name }, this.httpOptions)
       .pipe(
-        tap(_ => this.log('edit tags success')),
+        tap(() => this.log('edit tags success')),
         catchError(this.handleError<Tag>('editTags'))
       );
   }
-  
+
   deleteTag (_id: string): Observable<Tag> {
     return this.http.delete<Tag>(`${this.heroesUrl}/tag/${_id}`).pipe(
-      tap(_ => this.log('delete tags success')),
+      tap(() => this.log('delete tags success')),
       catchError(this.handleError<Tag>('deleteTags'))
     );
   }
 
   getTopHeroes (): Observable<Hero[]> {
     return this.http.get<Hero[]>(`${this.heroesUrl}?limit=5`).pipe(
-      tap(_ => {
+      tap(() => {
         this.log('fetched Top heroes');
       }),
       catchError(this.handleError<Hero[]>('getTopHeroes', []))
@@ -134,6 +138,7 @@ export class HeroService {
       return of(result as T);
     };
   }
+
   private log (message: string) {
     this.messageService.add(`HeroService:${message}`);
   }

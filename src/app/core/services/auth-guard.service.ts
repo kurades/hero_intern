@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { Store } from '@ngrx/store';
 import { HeroState } from '../store/Hero/hero.selector';
-import { loginSuccess } from '../store/User/user.actions';
 @Injectable()
 export class AuthGuardService {
   constructor (

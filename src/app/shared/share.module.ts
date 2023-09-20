@@ -7,17 +7,8 @@ import { CopyDirective } from './directive/copy.directive';
 import { ColorizeDirective } from './directive/colorize.directive';
 
 @NgModule({
-  declarations: [
-    ShortenPipe,
-    CopyDirective,
-    ColorizeDirective
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgbModule,
-  ],
+  declarations: [ShortenPipe, CopyDirective, ColorizeDirective],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, NgbModule],
   exports: [
     CommonModule,
     FormsModule,
@@ -28,5 +19,5 @@ import { ColorizeDirective } from './directive/colorize.directive';
     ColorizeDirective
   ]
 })
-export class ShareModule { }
+export class ShareModule {}
 // commonly used

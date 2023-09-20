@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Hero } from '../../core/models/hero';
 import { Store } from '@ngrx/store';
 import { selectHeros } from '../../core/store/Hero/hero.selector';
@@ -10,7 +10,7 @@ import { AppState } from 'src/app/core/store/app.state';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   storeHeroes$ = this.store.select(selectHeros);
   heroes: Hero[];
   private subcription: Subscription;
@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
   ngOnDestroy (): void {
     this.subcription.unsubscribe();
   }
-  
+
   private getTopHeroes (): void {
     this.subcription = this.storeHeroes$.subscribe(heroes => {
       this.heroes = heroes.slice(0, 5);

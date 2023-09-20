@@ -43,7 +43,7 @@
             </div>
         </div>
         <div formArrayName="tags" class="mb-3">
-            <label>Tags</label>
+            <p>Tags</p>
             <div class="d-flex w-75 flex-wrap">
                 <app-tag *ngFor="let tag of tags.controls" (removeTag)="removeTag($event)" [tag]="tag.value"
                     [disable]="false"></app-tag>
